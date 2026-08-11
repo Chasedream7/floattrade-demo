@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FloatTrade Pro Modular Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="side-rail" aria-label="工作区工具栏">
+        <div class="terminal-logo">F</div>
+        <button class="rail-button is-active" type="button" title="工作区">▦</button>
+        <button class="rail-button" id="showModulePicker" type="button" title="添加模块">＋</button>
+        <button class="rail-button" id="stealthToggle" type="button" title="隐蔽模式">◐</button>
+      </aside>
+
+      <main class="trade-terminal">
+        <header class="terminal-topbar">
+          <div class="workspace-status">
+            <strong>Focus Workspace</strong>
+            <span>Paper trading</span>
+          </div>
+          <div class="market-switcher" aria-label="市场范围">
+            <button class="is-active" data-market="A 股" type="button">A股</button>
+            <button data-market="美股" type="button">美股</button>
+            <button data-market="ETF" type="button">ETF</button>
+            <strong id="marketLabel">A 股</strong>
+          </div>
+          <nav class="module-tabs" aria-label="可选模块">
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="account" type="button">♟ Account</button><button class="tab-close" data-close-module="account" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab" data-module-tab="quote" type="button">▣ Quote</button><button class="tab-close" data-close-module="quote" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="order" type="button">▰ Order entry</button><button class="tab-close" data-close-module="order" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="watchlist" type="button">★ Watchlist</button><button class="tab-close" data-close-module="watchlist" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="chart" type="button">▥ Chart</button><button class="tab-close" data-close-module="chart" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab" data-module-tab="options" type="button">⌘ Option chain</button><button class="tab-close" data-close-module="options" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab" data-module-tab="news" type="button">▤ News</button><button class="tab-close" data-close-module="news" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="alert" type="button">⚑ Alert</button><button class="tab-close" data-close-module="alert" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="risk" type="button">◇ Risk line</button><button class="tab-close" data-close-module="risk" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="checklist" type="button">✓ Checklist</button><button class="tab-close" data-close-module="checklist" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="review" type="button">↺ Review</button><button class="tab-close" data-close-module="review" type="button">×</button></span>
+            <span class="module-pill"><button class="module-tab is-open" data-module-tab="strategy" type="button">◎ Strategy lab</button><button class="tab-close" data-close-module="strategy" type="button">×</button></span>
+          </nav>
+          <div class="workspace-actions">
+            <button class="layout-save" type="button">Save layout</button>
+            <button class="workspace-close" id="bossKey" type="button">Quick hide</button>
+          </div>
+        </header>
+
+        <section class="module-picker" id="modulePicker" hidden>
+          <span>添加模块</span>
+          <button data-module-tab="account" type="button">Account</button>
+          <button data-module-tab="quote" type="button">Quote</button>
+          <button data-module-tab="order" type="button">Order entry</button>
+          <button data-module-tab="watchlist" type="button">Watchlist</button>
+          <button data-module-tab="chart" type="button">Chart</button>
+          <button data-module-tab="options" type="button">Option chain</button>
+          <button data-module-tab="news" type="button">News</button>
+          <button data-module-tab="alert" type="button">Alert</button>
+          <button data-module-tab="risk" type="button">Risk line</button>
+          <button data-module-tab="checklist" type="button">Checklist</button>
+          <button data-module-tab="review" type="button">Review</button>
+          <button data-module-tab="strategy" type="button">Strategy lab</button>
+        </section>
+
+        <section class="workspace-grid" id="workspaceGrid" aria-label="交易模块工作区">
+          <article class="module-panel span-7" data-module="account">
+            <header class="module-header">
+              <nav class="panel-tabs">
+                <button class="panel-tab is-active" data-tab-target="balances" type="button">Balances</button>
+                <button class="panel-tab" data-tab-target="positions" type="button">Positions</button>
+                <button class="panel-tab" data-tab-target="orders" type="button">Orders</button>
+                <button class="panel-tab" data-tab-target="executions" type="button">Executions</button>
+              </nav>
+              <div class="panel-actions">
+                <button type="button" title="设置">⚙</button>
+                <button class="panel-close" data-close-module="account" type="button" title="关闭">×</button>
+              </div>
+            </header>
+            <div class="module-body">
+              <section class="tab-content is-active" data-tab-content="balances">
+                <div class="account-toolbar">
+                  <button class="select-chip" type="button">Paper -FT2026 ▾</button>
+                  <button class="state-chip is-active" type="button">Current</button>
+                  <button class="state-chip" type="button">Start of day</button>
+                  <button class="add-funds" type="button">+ Add funds</button>
+                </div>
+                <table class="terminal-table balances-table">
+                  <thead>
+                    <tr>
+                      <th>Profit & loss</th>
+                      <th>A股</th>
+                      <th>USD</th>
+                      <th>ETF</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Open P&L</td><td class="up">+¥3,280.00</td><td class="up">+$1,246.38</td><td class="up">+¥1,620.00</td><td class="up">+¥13,780.66</td></tr>
+                    <tr><td>Closed P&L</td><td>¥0.00</td><td class="up">+$219.64</td><td class="up">+¥307.85</td><td class="up">+¥1,882.45</td></tr>
+                    <tr><td>P&L day</td><td class="down">-¥42.00</td><td class="up">+$18.46</td><td class="up">+¥54.54 +0.87%</td><td class="up">+¥146.25 +0.69%</td></tr>
+                    <tr class="group"><td>Equity</td><td>A股</td><td>USD</td><td>ETF</td><td>Total</td></tr>
+                    <tr><td>Total equity</td><td>¥129,090.99</td><td>$85,005.36</td><td>¥73,980.00</td><td>¥812,907.76</td></tr>
+                    <tr><td>Cash</td><td>¥99,262.00</td><td>$4,183.89</td><td>¥4,873.40</td><td>¥133,475.91</td></tr>
+                    <tr><td>Market value</td><td>¥29,828.99</td><td>$80,821.47</td><td>¥69,106.60</td><td>¥679,431.85</td></tr>
+                    <tr class="group"><td>Buying power</td><td>A股</td><td>USD</td><td>ETF</td><td>Total</td></tr>
+                    <tr><td>Total buying power</td><td>¥201,390.00</td><td>$38,081.51</td><td>¥53,593.71</td><td>¥536,251.50</td></tr>
+                    <tr><td>Total max buying power</td><td>¥670,629.00</td><td>$126,811.43</td><td>¥178,466.95</td><td>¥1,784,897.50</td></tr>
+                  </tbody>
+                </table>
+              </section>
+
+              <section class="tab-content" data-tab-content="positions">
+                <div class="holding-list compact-list" id="holdingList"></div>
+              </section>
+
+              <section class="tab-content" data-tab-content="orders">
+                <table class="terminal-table">
+                  <tbody>
+                    <tr><td>模拟买入</td><td>贵州茅台</td><td>21 股</td><td class="up">Submitted</td></tr>
+                    <tr><td>止损单</td><td>宁德时代</td><td>¥ 280.00</td><td>Waiting</td></tr>
+                    <tr><td>预警单</td><td>沪深300ETF</td><td>成交量 2x</td><td>Active</td></tr>
+                  </tbody>
+                </table>
+              </section>
+
+              <section class="tab-content" data-tab-content="executions">
+                <table class="terminal-table">
+                  <tbody>
+                    <tr><td>09:42:11</td><td>Paper fill</td><td>中芯国际</td><td class="up">+¥5,136</td></tr>
+                    <tr><td>09:36:05</td><td>Paper fill</td><td>沪深300ETF</td><td class="up">+¥1,620</td></tr>
+                  </tbody>
+                </table>
+              </section>
+            </div>
+          </article>
+
+          <article class="module-panel span-5" data-module="chart">
+            <header class="module-header">
+              <h2>Chart</h2>
+              <div class="panel-actions">
+                <button type="button">↗</button>
+                <button class="panel-close" data-close-module="chart" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body">
+              <div class="quote-search">
+                <span>⌕</span>
+                <strong id="selectedCode">600519.SH</strong>
+                <button type="button">Stock</button>
+              </div>
+              <div class="quote-line">
+                <strong id="selectedPrice">¥ 1,722.30</strong>
+                <span class="rise" id="selectedChange">+2.18%</span>
+                <span id="selectedName">贵州茅台</span>
+              </div>
+              <div class="chart-tools">
+                <button type="button">⌁</button>
+                <button type="button">✎</button>
+                <button type="button">▦</button>
+                <button type="button">Chart types ▾</button>
+                <button type="button">5m ▾</button>
+                <button type="button">Studies</button>
+              </div>
+              <canvas id="priceChart" width="920" height="360" aria-label="行情走势图"></canvas>
+              <div class="chart-footer">
+                <span>开盘 <strong id="openPrice">¥ 1,688.00</strong></span>
+                <span>成交量 <strong id="volumeValue">8.42 万手</strong></span>
+                <span>预警价 <strong id="alertValue">¥ 1,760.00</strong></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="module-panel span-6" data-module="watchlist">
+            <header class="module-header">
+              <nav class="panel-tabs">
+                <button class="panel-tab is-active" data-tab-target="level2" type="button">Level 2</button>
+                <button class="panel-tab" data-tab-target="time-sales" type="button">Time & sales</button>
+                <button class="panel-tab" data-tab-target="watch-symbols" type="button">Watchlist</button>
+              </nav>
+              <div class="panel-actions">
+                <button type="button">⚙</button>
+                <button class="panel-close" data-close-module="watchlist" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body">
+              <section class="tab-content is-active" data-tab-content="level2">
+                <div class="level-header">
+                  <span>⌕ LKIN</span>
+                  <button type="button">Stock</button>
+                  <button class="trade-now" type="button">Trade</button>
+                </div>
+                <div class="price-strip">
+                  <strong>$682.90</strong>
+                  <span class="up">USD +$1.46 +0.21%</span>
+                </div>
+                <div class="depth-visual">
+                  <span class="bid-depth"></span>
+                  <span class="ask-depth"></span>
+                </div>
+                <table class="terminal-table depth-table">
+                  <tbody>
+                    <tr><td>Venue</td><td>Bid size</td><td>Bid</td><td>Ask</td><td>Ask size</td><td>Venue</td></tr>
+                    <tr><td>TotalView</td><td>2,100</td><td class="up">682.89</td><td class="down">682.90</td><td>450</td><td>TotalView</td></tr>
+                    <tr><td>NYSE</td><td>900</td><td class="up">682.88</td><td class="down">682.91</td><td>1,200</td><td>ARCA</td></tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="tab-content" data-tab-content="time-sales">
+                <table class="terminal-table">
+                  <tbody>
+                    <tr><td>08:00:12</td><td>682.90</td><td>240</td><td>ARCA</td></tr>
+                    <tr><td>08:00:10</td><td>682.89</td><td>120</td><td>NYSE</td></tr>
+                    <tr><td>08:00:08</td><td>682.91</td><td>500</td><td>NASDAQ</td></tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="tab-content" data-tab-content="watch-symbols">
+                <div class="stock-grid" id="stockGrid"></div>
+                <button class="add-watch" id="addWatch" type="button">+ Add symbol</button>
+              </section>
+            </div>
+          </article>
+
+          <article class="module-panel span-6 is-advanced" data-module="options" hidden>
+            <header class="module-header">
+              <h2>Options chain</h2>
+              <div class="panel-actions">
+                <button type="button">↗</button>
+                <button class="panel-close" data-close-module="options" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body">
+              <div class="quote-line options-quote">
+                <strong>BIGW</strong>
+                <span>$275.35</span>
+                <span class="up">USD +$5.925 +2.20%</span>
+              </div>
+              <div class="option-filters">
+                <button class="is-active" type="button">Both</button>
+                <button type="button">Calls</button>
+                <button type="button">Puts</button>
+                <button type="button">8 strikes ▾</button>
+              </div>
+              <table class="terminal-table option-table">
+                <thead>
+                  <tr><th>Last</th><th>Chg ($)</th><th>Bid</th><th>Ask</th><th>Volume</th><th>Open</th><th>Strike</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>8.35</td><td class="up">4.41</td><td>8.25</td><td>8.35</td><td>2.15K</td><td>5</td><td>267.5</td></tr>
+                  <tr><td>6.05</td><td class="up">3.62</td><td>6.00</td><td>6.15</td><td>17.64K</td><td>18</td><td>270</td></tr>
+                  <tr><td>4.10</td><td class="up">2.71</td><td>4.10</td><td>4.15</td><td>38.35K</td><td>12</td><td>272.5</td></tr>
+                  <tr><td>2.54</td><td class="up">1.81</td><td>2.53</td><td>2.55</td><td>91.63K</td><td>24</td><td>275</td></tr>
+                  <tr><td>1.38</td><td class="up">1.01</td><td>1.37</td><td>1.40</td><td>42.22K</td><td>8</td><td>277.5</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="module-panel span-4 focus-panel" data-module="risk">
+            <header class="module-header">
+              <h2>Risk line</h2>
+              <div class="panel-actions">
+                <button type="button">Rules</button>
+                <button class="panel-close" data-close-module="risk" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body">
+              <div class="risk-score">
+                <span>今日风险</span>
+                <strong>1.2%</strong>
+                <small>低于单笔上限 2%</small>
+              </div>
+              <div class="risk-bars">
+                <label><span>仓位</span><i style="--value: 42%"></i><b>42%</b></label>
+                <label><span>止损距离</span><i style="--value: 36%"></i><b>3.2%</b></label>
+                <label><span>回撤压力</span><i class="warn-bar" style="--value: 58%"></i><b>中</b></label>
+              </div>
+              <div class="risk-note">新手模式会在没有止损价时拦截模拟下单。</div>
+            </div>
+          </article>
+
+          <article class="module-panel span-4 focus-panel" data-module="checklist">
+            <header class="module-header">
+              <h2>Checklist</h2>
+              <div class="panel-actions">
+                <button type="button">Auto</button>
+                <button class="panel-close" data-close-module="checklist" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body checklist-list">
+              <label><input type="checkbox" checked /> 市场范围已确认：A股 / 美股 / ETF</label>
+              <label><input type="checkbox" checked /> 入场条件不是临时冲动</label>
+              <label><input type="checkbox" checked /> 仓位小于账户 20%</label>
+              <label><input type="checkbox" checked /> 已设置止损价</label>
+              <label><input type="checkbox" /> 已写复盘备注</label>
+            </div>
+          </article>
+
+          <article class="module-panel span-4 focus-panel" data-module="review">
+            <header class="module-header">
+              <h2>Review</h2>
+              <div class="panel-actions">
+                <button type="button">Export</button>
+                <button class="panel-close" data-close-module="review" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body review-feed">
+              <article><time>09:42</time><strong>中芯国际</strong><span>放量突破后模拟买入，计划止损 3.4%。</span></article>
+              <article><time>10:18</time><strong>沪深300ETF</strong><span>ETF 仓位保持，网格策略未触发。</span></article>
+              <article><time>11:06</time><strong>系统提醒</strong><span>今日不再新增第三笔高波动个股。</span></article>
+            </div>
+          </article>
+
+          <article class="module-panel span-4" data-module="order">
+            <header class="module-header">
+              <h2>Order entry</h2>
+              <div class="panel-actions">
+                <button type="button">⚙</button>
+                <button class="panel-close" data-close-module="order" type="button">×</button>
+              </div>
+            </header>
+            <form id="tradeForm" class="trade-form module-body">
+              <label>Symbol <select id="tradeSymbol"></select></label>
+              <label>Entry rule
+                <select id="entryReason">
+                  <option>回踩 20 日线企稳</option>
+                  <option>突破前高并放量</option>
+                  <option>低估值 ETF 定投</option>
+                  <option>策略信号触发</option>
+                </select>
+              </label>
+              <div class="form-split">
+                <label>Buy <input id="entryPrice" type="number" min="1" step="0.01" value="1722.30" /></label>
+                <label>Size <input id="positionSize" type="range" min="5" max="50" value="20" /><span id="positionLabel">20%</span></label>
+              </div>
+              <div class="form-split">
+                <label>Stop <input id="stopLoss" type="number" min="1" step="0.01" value="1668.00" /></label>
+                <label>Target <input id="takeProfit" type="number" min="1" step="0.01" value="1818.00" /></label>
+              </div>
+              <label>Note <textarea id="tradeNote" rows="3">缩小仓位试单，触发止损严格退出。</textarea></label>
+              <button class="trade-now full" type="submit">Send paper order</button>
+              <span class="ticket-state" id="planState">待确认</span>
+            </form>
+          </article>
+
+          <article class="module-panel span-4" data-module="alert">
+            <header class="module-header">
+              <h2>Alert</h2>
+              <div class="panel-actions">
+                <button class="add-watch" id="newAlert" type="button">New</button>
+                <button class="panel-close" data-close-module="alert" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body">
+              <div class="alert-list" id="alertList"></div>
+            </div>
+          </article>
+
+          <article class="module-panel span-4" data-module="quote" hidden>
+            <header class="module-header">
+              <h2>Quote</h2>
+              <div class="panel-actions">
+                <button class="panel-close" data-close-module="quote" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body quote-card">
+              <span>Current market</span>
+              <strong>A 股</strong>
+              <p>模拟资金 <b id="cashValue">¥ 182,460</b></p>
+              <p>今日盈亏 <b class="rise" id="dayPnl">+¥ 1,280</b></p>
+              <p>预警触发 <b id="alertCount">2 条</b></p>
+            </div>
+          </article>
+
+          <article class="module-panel span-4" data-module="news" hidden>
+            <header class="module-header">
+              <h2>News</h2>
+              <div class="panel-actions">
+                <button class="panel-close" data-close-module="news" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body news-list">
+              <article><strong>板块轮动加速</strong><span>半导体与红利 ETF 成交量升温</span></article>
+              <article><strong>风险提示</strong><span>模拟仓单笔风险接近 1.2%</span></article>
+              <article><strong>策略信号</strong><span>均线回踩模板出现 2 个候选标的</span></article>
+            </div>
+          </article>
+
+          <article class="module-panel span-8" data-module="strategy">
+            <header class="module-header">
+              <h2>Strategy lab</h2>
+              <div class="panel-actions">
+                <button type="button">vn.py ready</button>
+                <button class="panel-close" data-close-module="strategy" type="button">×</button>
+              </div>
+            </header>
+            <div class="module-body strategy-layout">
+              <div class="strategy-list">
+                <button class="strategy-card is-active" data-strategy="ma" type="button"><strong>均线回踩</strong><span>20 日线 + 缩量企稳</span></button>
+                <button class="strategy-card" data-strategy="breakout" type="button"><strong>放量突破</strong><span>前高突破 + 成交放大</span></button>
+                <button class="strategy-card" data-strategy="etf" type="button"><strong>ETF 网格</strong><span>低波动资产分批买卖</span></button>
+              </div>
+              <div class="backtest-card">
+                <canvas id="strategyChart" width="560" height="220" aria-label="策略回测曲线"></canvas>
+                <div class="backtest-stats">
+                  <span>年化 <strong id="annualReturn">18.6%</strong></span>
+                  <span>回撤 <strong id="drawdown">-6.4%</strong></span>
+                  <span>信号 <strong id="signalCount">14 次</strong></span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <section class="float-widget" id="floatWidget" aria-label="悬浮行情窗口">
+        <header class="float-header" id="dragHandle">
+          <span class="float-dot"></span>
+          <strong id="floatTitle">贵州茅台</strong>
+          <div class="float-actions">
+            <button id="floatMini" aria-label="最小化" title="最小化" type="button">−</button>
+            <button id="floatClose" aria-label="关闭" title="关闭" type="button">×</button>
+          </div>
+        </header>
+        <div class="float-body">
+          <div class="float-quote">
+            <strong id="floatPrice">¥ 1,722.30</strong>
+            <span class="rise" id="floatChange">+2.18%</span>
+          </div>
+          <canvas id="floatChart" width="260" height="96" aria-label="悬浮窗走势图"></canvas>
+          <div class="float-meta">
+            <span>量 <strong id="floatVolume">8.42 万手</strong></span>
+            <span>预警 <strong id="floatAlert">¥ 1,760</strong></span>
+          </div>
+        </div>
+        <div class="stealth-body">
+          <span>今日任务</span>
+          <strong>74%</strong>
+          <small>同步正常</small>
+        </div>
+      </section>
+
+      <button class="restore-button" id="restoreKey" type="button">恢复交易台</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
