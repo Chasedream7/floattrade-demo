@@ -48,8 +48,8 @@ const holdings = [
 
 const alerts = [
   { name: "贵州茅台", rule: "价格触达 ¥ 1,760", active: true, tone: "red" },
-  { name: "宁德时代", rule: "跌破止损 ¥ 280", active: true, tone: "blue" },
-  { name: "沪深300ETF", rule: "成交量放大 2 倍", active: false, tone: "blue" },
+  { name: "宁德时代", rule: "跌破止损 ¥ 280", active: true, tone: "neutral" },
+  { name: "沪深300ETF", rule: "成交量放大 2 倍", active: false, tone: "neutral" },
 ];
 
 const strategyMap = {
@@ -58,7 +58,7 @@ const strategyMap = {
     annual: "18.6%",
     drawdown: "-6.4%",
     signals: "14 次",
-    color: "#315f8f",
+    color: "#dce2dd",
   },
   breakout: {
     line: series(45, 96, 28, 1.7).map((v, index) => v + index * 1.2),
@@ -72,7 +72,7 @@ const strategyMap = {
     annual: "9.8%",
     drawdown: "-3.2%",
     signals: "32 次",
-    color: "#4d97ff",
+    color: "#9ea7a1",
   },
 };
 
@@ -259,8 +259,8 @@ function renderAlerts() {
 
 function alertColor(tone) {
   if (tone === "red") return "#ff5f86";
-  if (tone === "blue") return "#4d97ff";
-  return "#d7cf88";
+  if (tone === "neutral") return "#c9cfca";
+  return "#d1d6d2";
 }
 
 function drawSpark(canvas, values, color) {
@@ -297,11 +297,11 @@ function drawMainChart() {
   drawGrid(ctx, width, height);
 
   if (chartMode === "volume") {
-    drawVolume(ctx, selectedStock.volumeSeries, 28, 28, width - 56, height - 56, "#315f8f");
+    drawVolume(ctx, selectedStock.volumeSeries, 28, 28, width - 56, height - 56, "rgba(218, 224, 219, 0.56)");
   } else {
     const color = tickerColor(selectedStock.change);
     drawAreaLine(ctx, chartValues(), 28, 28, width - 56, height - 56, color);
-    drawVolume(ctx, selectedStock.volumeSeries, 28, height * 0.68, width - 56, height * 0.24, "rgba(49, 95, 143, 0.26)");
+    drawVolume(ctx, selectedStock.volumeSeries, 28, height * 0.68, width - 56, height * 0.24, "rgba(218, 224, 219, 0.18)");
   }
 }
 
@@ -514,7 +514,7 @@ document.querySelector("#newAlert").addEventListener("click", () => {
     name: selectedStock.name,
     rule: `价格触达 ${money(selectedStock.alert, selectedStock.currency)}`,
     active: true,
-    tone: selectedStock.change >= 0 ? "blue" : "red",
+    tone: "neutral",
   });
   renderAlerts();
   showToast("预警已创建");
