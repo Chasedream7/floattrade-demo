@@ -16,8 +16,11 @@ const initialTopbar = {
   eyebrow: topbarEyebrow?.textContent || "",
 };
 
-const TICKER_UP_COLOR = "#44d294";
-const TICKER_DOWN_COLOR = "#ff5f86";
+const TICKER_COLORS = {
+  "A 股": { rise: "#ff5f86", fall: "#44d294" },
+  "美股": { rise: "#44d294", fall: "#ff5f86" },
+  ETF: { rise: "#ff5f86", fall: "#44d294" },
+};
 
 const marketData = {
   "A 股": [
@@ -39,8 +42,8 @@ const marketData = {
 };
 
 const holdings = [
-  { name: "沪深300ETF", code: "510300.SH", shares: 18000, cost: 4.02, value: 73980, pnl: 1620 },
-  { name: "中芯国际", code: "688981.SH", shares: 1200, cost: 63.2, value: 80976, pnl: 5136 },
+  { name: "沪深300ETF", code: "510300.SH", market: "ETF", shares: 18000, cost: 4.02, value: 73980, pnl: 1620 },
+  { name: "中芯国际", code: "688981.SH", market: "A 股", shares: 1200, cost: 63.2, value: 80976, pnl: 5136 },
 ];
 
 const alerts = [
@@ -121,6 +124,17 @@ function signedPercent(value) {
   return `${value > 0 ? "+" : ""}${value.toFixed(2)}%`;
 }
 
+function tickerColor(value, market = selectedMarket) {
+  const colors = TICKER_COLORS[market] || TICKER_COLORS["美股"];
+  return value >= 0 ? colors.rise : colors.fall;
+}
+
+function applyTickerTone(element, value, market = selectedMarket) {
+  if (!element) return;
+  element.className = value >= 0 ? "rise" : "fall";
+  element.style.color = tickerColor(value, market);
+}
+
 function renderStocks() {
   stockGrid.innerHTML = "";
   tradeSymbol.innerHTML = "";
@@ -142,13 +156,13 @@ function renderStocks() {
       </span>
       <span class="price">
         ${money(item.price, item.currency)}
-        <small class="${item.change >= 0 ? "rise" : "fall"}">${signedPercent(item.change)}</small>
+        <small class="${item.change >= 0 ? "rise" : "fall"}" style="color: ${tickerColor(item.change)}">${signedPercent(item.change)}</small>
       </span>
       <canvas class="sparkline" width="360" height="64" aria-hidden="true"></canvas>
     `;
     button.addEventListener("click", () => selectStock(item));
     stockGrid.append(button);
-    drawSpark(button.querySelector("canvas"), item.series, item.change >= 0 ? "#4d97ff" : "#ff5f86");
+    drawSpark(button.querySelector("canvas"), item.series, tickerColor(item.change));
   });
 
   tradeSymbol.value = selectedStock.code;
@@ -166,12 +180,15 @@ function selectStock(item) {
 }
 
 function syncSelectedStock() {
-  const colorClass = selectedStock.change >= 0 ? "rise" : "fall";
+  const dayPnl = document.querySelector("#dayPnl");
+  const quoteMarketName = document.querySelector("#quoteMarketName");
+  if (quoteMarketName) quoteMarketName.textContent = selectedMarket;
+  applyTickerTone(dayPnl, 1280, selectedMarket);
   document.querySelector("#selectedCode").textContent = selectedStock.code;
   document.querySelector("#selectedName").textContent = selectedStock.name;
   document.querySelector("#selectedPrice").textContent = money(selectedStock.price, selectedStock.currency);
   document.querySelector("#selectedChange").textContent = signedPercent(selectedStock.change);
-  document.querySelector("#selectedChange").className = colorClass;
+  applyTickerTone(document.querySelector("#selectedChange"), selectedStock.change);
   document.querySelector("#openPrice").textContent = money(selectedStock.open, selectedStock.currency);
   document.querySelector("#volumeValue").textContent = selectedStock.volume;
   document.querySelector("#alertValue").textContent = money(selectedStock.alert, selectedStock.currency);
@@ -181,7 +198,7 @@ function syncSelectedStock() {
   document.querySelector("#floatTitle").textContent = selectedStock.name;
   document.querySelector("#floatPrice").textContent = money(selectedStock.price, selectedStock.currency);
   document.querySelector("#floatChange").textContent = signedPercent(selectedStock.change);
-  document.querySelector("#floatChange").className = colorClass;
+  applyTickerTone(document.querySelector("#floatChange"), selectedStock.change);
   document.querySelector("#floatVolume").textContent = selectedStock.volume;
   document.querySelector("#floatAlert").textContent = money(selectedStock.alert, selectedStock.currency);
   const phoneName = document.querySelector("#phoneName");
@@ -192,7 +209,7 @@ function syncSelectedStock() {
   if (phonePrice) phonePrice.textContent = money(selectedStock.price, selectedStock.currency);
   if (phoneChange) {
     phoneChange.textContent = signedPercent(selectedStock.change);
-    phoneChange.className = colorClass;
+    applyTickerTone(phoneChange, selectedStock.change);
   }
   if (phonePlan) {
     phonePlan.textContent =
@@ -210,7 +227,7 @@ function renderHoldings() {
         <strong>${item.name}</strong>
         <small>${item.code} · ${item.shares.toLocaleString("zh-CN")} 股 · 成本 ${item.cost}</small>
       </span>
-      <span class="holding-pnl ${item.pnl >= 0 ? "rise" : "fall"}">
+      <span class="holding-pnl ${item.pnl >= 0 ? "rise" : "fall"}" style="color: ${tickerColor(item.pnl, item.market || "A 股")}">
         ${item.pnl >= 0 ? "+" : ""}¥ ${Math.abs(item.pnl).toLocaleString("zh-CN")}
       </span>
     `;
@@ -282,7 +299,7 @@ function drawMainChart() {
   if (chartMode === "volume") {
     drawVolume(ctx, selectedStock.volumeSeries, 28, 28, width - 56, height - 56, "#315f8f");
   } else {
-    const color = selectedStock.change >= 0 ? TICKER_UP_COLOR : TICKER_DOWN_COLOR;
+    const color = tickerColor(selectedStock.change);
     drawAreaLine(ctx, chartValues(), 28, 28, width - 56, height - 56, color);
     drawVolume(ctx, selectedStock.volumeSeries, 28, height * 0.68, width - 56, height * 0.24, "rgba(49, 95, 143, 0.26)");
   }
@@ -293,7 +310,7 @@ function drawFloatChart() {
   const ctx = floatChart.getContext("2d");
   const { width, height } = floatChart;
   ctx.clearRect(0, 0, width, height);
-  const color = selectedStock.change >= 0 ? TICKER_UP_COLOR : TICKER_DOWN_COLOR;
+  const color = tickerColor(selectedStock.change);
   drawAreaLine(ctx, selectedStock.series.slice(-24), 10, 10, width - 20, height - 20, color);
 }
 
@@ -480,6 +497,7 @@ tradeForm.addEventListener("submit", (event) => {
   holdings.unshift({
     name: selectedStock.name,
     code: selectedStock.code,
+    market: selectedMarket,
     shares,
     cost: entry,
     value: shares * selectedStock.price,
