@@ -15,6 +15,10 @@
   --green: #44d294;
   --signal-rise: #ff5f86;
   --signal-fall: #44d294;
+  --book-bid: #8dbdff;
+  --book-bid-rgb: 141, 189, 255;
+  --book-ask: #ff5f86;
+  --book-ask-rgb: 255, 95, 134;
   --ticker-up: var(--signal-rise);
   --ticker-down: var(--signal-fall);
   --yellow: #d1d6d2;
@@ -599,7 +603,7 @@ textarea:focus-visible {
   border-radius: 5px;
   background:
     linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    #0b1218;
+    #0e1110;
   background-size: 100% 19px;
 }
 
@@ -627,13 +631,22 @@ textarea:focus-visible {
 
 .bid-depth {
   left: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.06));
+  background: linear-gradient(180deg, rgba(var(--book-bid-rgb), 0.48), rgba(var(--book-bid-rgb), 0.1));
 }
 
 .ask-depth {
   right: 0;
   transform: scaleX(-1);
-  background: linear-gradient(180deg, rgba(185, 194, 188, 0.22), rgba(185, 194, 188, 0.055));
+  background: linear-gradient(180deg, rgba(var(--book-ask-rgb), 0.44), rgba(var(--book-ask-rgb), 0.1));
+}
+
+.depth-table .book-bid,
+.price-strip .book-bid {
+  color: var(--book-bid);
+}
+
+.depth-table .book-ask {
+  color: var(--book-ask);
 }
 
 .price-strip {
