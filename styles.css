@@ -1,22 +1,24 @@
 :root {
-  --bg: #101618;
-  --panel: #1a2022;
-  --panel-2: #12191a;
-  --panel-3: #222a2c;
-  --chrome: #242b2e;
-  --line: #30393b;
-  --line-2: #3b484a;
+  --bg: #111514;
+  --panel: #1b1f1e;
+  --panel-2: #121615;
+  --panel-3: #232827;
+  --chrome: #252928;
+  --line: #343938;
+  --line-2: #424846;
   --text: #e0e7e3;
   --muted: #9aa7a2;
   --faint: #68746f;
-  --accent: #9ac7ff;
-  --accent-2: #2f7dff;
+  --accent: #f0f3ee;
+  --accent-2: #9ea7a1;
   --red: #ff5f86;
-  --ticker-up: #44d294;
-  --ticker-down: #ff5f86;
-  --yellow: #d7cf88;
-  --blue: #78a8ff;
-  --orange: #ffb36b;
+  --green: #44d294;
+  --signal-rise: #ff5f86;
+  --signal-fall: #44d294;
+  --ticker-up: var(--signal-rise);
+  --ticker-down: var(--signal-fall);
+  --yellow: #d1d6d2;
+  --orange: #c9cfca;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
   --radius: 6px;
   color-scheme: dark;
@@ -38,10 +40,10 @@ body {
   margin: 0;
   color: var(--text);
   background:
-    linear-gradient(120deg, rgba(16, 22, 24, 0.92), rgba(18, 27, 28, 0.98)),
-    radial-gradient(circle at 6% 12%, rgba(154, 199, 255, 0.16), transparent 28%),
-    radial-gradient(circle at 92% 8%, rgba(120, 168, 255, 0.12), transparent 24%),
-    #101618;
+    linear-gradient(120deg, rgba(17, 21, 20, 0.94), rgba(22, 25, 24, 0.98)),
+    radial-gradient(circle at 6% 12%, rgba(255, 255, 255, 0.07), transparent 28%),
+    radial-gradient(circle at 92% 8%, rgba(255, 255, 255, 0.055), transparent 24%),
+    #111514;
   overflow-x: hidden;
 }
 
@@ -61,7 +63,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid rgba(77, 151, 255, 0.48);
+  outline: 2px solid rgba(255, 255, 255, 0.48);
   outline-offset: 1px;
 }
 
@@ -79,7 +81,7 @@ textarea:focus-visible {
   gap: 16px;
   padding-top: 6px;
   border-radius: 16px 0 0 16px;
-  background: rgba(18, 24, 31, 0.82);
+  background: rgba(18, 20, 20, 0.82);
   box-shadow: var(--shadow);
 }
 
@@ -89,8 +91,8 @@ textarea:focus-visible {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  color: #eaf4ff;
-  background: #223247;
+  color: #f4f6f2;
+  background: #2a2f2d;
   font-size: 22px;
   font-weight: 950;
 }
@@ -108,8 +110,8 @@ textarea:focus-visible {
 
 .rail-button.is-active,
 .rail-button:hover {
-  color: var(--accent);
-  background: rgba(77, 151, 255, 0.1);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .trade-terminal {
@@ -117,7 +119,7 @@ textarea:focus-visible {
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0 14px 14px 0;
-  background: rgba(7, 13, 18, 0.92);
+  background: rgba(9, 12, 11, 0.92);
   box-shadow: var(--shadow);
 }
 
@@ -129,8 +131,8 @@ textarea:focus-visible {
   padding: 8px 10px;
   border-bottom: 1px solid #263033;
   background:
-    linear-gradient(180deg, rgba(46, 52, 59, 0.96), rgba(31, 37, 45, 0.96)),
-    #242b2e;
+    linear-gradient(180deg, rgba(48, 52, 50, 0.96), rgba(32, 36, 34, 0.96)),
+    #252928;
 }
 
 .workspace-status {
@@ -191,13 +193,13 @@ textarea:focus-visible {
 }
 
 .market-switcher button.is-active {
-  color: #07111c;
+  color: #111514;
   background: var(--accent);
 }
 
 .market-switcher strong {
-  color: var(--accent);
-  background: rgba(77, 151, 255, 0.08);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .module-pill {
@@ -210,8 +212,8 @@ textarea:focus-visible {
 }
 
 .module-pill:has(.module-tab.is-open) {
-  border-color: rgba(154, 199, 255, 0.22);
-  background: rgba(154, 199, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.075);
 }
 
 .module-tab {
@@ -225,11 +227,11 @@ textarea:focus-visible {
 }
 
 .module-tab.is-open {
-  color: var(--accent);
+  color: #ffffff;
 }
 
 .module-tab.is-focused {
-  color: #07111c;
+  color: #111514;
   border-radius: 999px;
   background: var(--accent);
 }
@@ -252,7 +254,7 @@ textarea:focus-visible {
 }
 
 .tab-close:hover {
-  color: #07111c;
+  color: #111514;
   background: var(--orange);
 }
 
@@ -275,7 +277,7 @@ textarea:focus-visible {
 }
 
 .layout-save {
-  color: #07111c;
+  color: #111514;
   background: var(--accent);
 }
 
@@ -285,7 +287,7 @@ textarea:focus-visible {
   gap: 8px;
   padding: 8px 10px;
   border-bottom: 1px solid var(--line);
-  background: #101720;
+  background: #151918;
 }
 
 .module-picker[hidden] {
@@ -302,7 +304,7 @@ textarea:focus-visible {
   padding: 0 9px;
   border-radius: 5px;
   color: var(--text);
-  background: #26303a;
+  background: #2b302e;
   font-size: 12px;
   font-weight: 800;
 }
@@ -321,14 +323,14 @@ textarea:focus-visible {
   overflow: hidden;
   border: 1px solid var(--line-2);
   border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(18, 25, 32, 0.98), rgba(9, 15, 21, 0.98));
+  background: linear-gradient(180deg, rgba(24, 28, 27, 0.98), rgba(12, 15, 14, 0.98));
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .module-panel.is-focused {
-  border-color: rgba(77, 151, 255, 0.72);
+  border-color: rgba(255, 255, 255, 0.36);
   box-shadow:
-    0 0 0 1px rgba(77, 151, 255, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.12),
     inset 0 1px rgba(255, 255, 255, 0.04);
 }
 
@@ -346,7 +348,7 @@ textarea:focus-visible {
   min-height: 32px;
   padding: 0 8px;
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, #303945, #202833);
+  background: linear-gradient(180deg, #343836, #222625);
 }
 
 .module-header h2 {
@@ -412,7 +414,7 @@ textarea:focus-visible {
 .panel-actions button:hover,
 .panel-close:hover {
   color: #ffffff;
-  background: #394553;
+  background: #454a48;
 }
 
 .module-body {
@@ -455,21 +457,21 @@ textarea:focus-visible {
   padding: 0 9px;
   border-radius: 5px;
   color: var(--text);
-  background: #2a343e;
+  background: #2e3331;
   font-size: 12px;
   font-weight: 850;
 }
 
 .state-chip.is-active,
 .option-filters button.is-active {
-  color: var(--accent);
-  background: rgba(77, 151, 255, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(77, 151, 255, 0.55);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.44);
 }
 
 .add-funds,
 .trade-now {
-  color: #07111c;
+  color: #111514;
   background: var(--accent);
 }
 
@@ -513,13 +515,13 @@ textarea:focus-visible {
 .up,
 .rise,
 .terminal-table .up {
-  color: var(--accent);
+  color: var(--signal-rise);
 }
 
 .down,
 .fall,
 .terminal-table .down {
-  color: var(--red);
+  color: var(--signal-fall);
 }
 
 .quote-search {
@@ -532,7 +534,7 @@ textarea:focus-visible {
   min-height: 26px;
   padding: 4px 8px;
   border-radius: 5px;
-  background: #28323c;
+  background: #2d3230;
 }
 
 .quote-search strong {
@@ -572,7 +574,7 @@ textarea:focus-visible {
   background:
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    #0b1218;
+    #0e1110;
   background-size: 64px 64px;
 }
 
@@ -625,13 +627,13 @@ textarea:focus-visible {
 
 .bid-depth {
   left: 0;
-  background: linear-gradient(180deg, rgba(77, 151, 255, 0.42), rgba(77, 151, 255, 0.08));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.06));
 }
 
 .ask-depth {
   right: 0;
   transform: scaleX(-1);
-  background: linear-gradient(180deg, rgba(255, 95, 134, 0.36), rgba(255, 95, 134, 0.08));
+  background: linear-gradient(180deg, rgba(185, 194, 188, 0.22), rgba(185, 194, 188, 0.055));
 }
 
 .price-strip {
@@ -642,7 +644,7 @@ textarea:focus-visible {
   padding: 0 7px;
   border-radius: 5px;
   color: #ffffff;
-  background: rgba(77, 151, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
   font-size: 12px;
 }
 
@@ -676,8 +678,8 @@ textarea:focus-visible {
 }
 
 .stock-card.is-active {
-  border-color: rgba(77, 151, 255, 0.65);
-  background: rgba(77, 151, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.075);
 }
 
 .stock-card strong,
@@ -691,11 +693,11 @@ textarea:focus-visible {
 }
 
 .stock-card small.rise {
-  color: var(--accent);
+  color: var(--signal-rise);
 }
 
 .stock-card small.fall {
-  color: var(--red);
+  color: var(--signal-fall);
 }
 
 .stock-card .price {
@@ -735,7 +737,7 @@ textarea:focus-visible {
   border-radius: 5px;
   padding: 0 8px;
   color: var(--text);
-  background: #0b1218;
+  background: #0e1110;
 }
 
 .trade-form textarea {
@@ -760,8 +762,8 @@ textarea:focus-visible {
   justify-self: start;
   padding: 4px 8px;
   border-radius: 999px;
-  color: var(--accent);
-  background: rgba(77, 151, 255, 0.1);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
   font-size: 12px;
 }
 
@@ -801,7 +803,7 @@ textarea:focus-visible {
   min-width: 54px;
   min-height: 28px;
   border-radius: 5px;
-  color: #07111c;
+  color: #111514;
   background: var(--accent);
   font-weight: 900;
 }
@@ -846,11 +848,11 @@ textarea:focus-visible {
   gap: 4px;
   min-height: 96px;
   padding: 14px;
-  border: 1px solid rgba(154, 199, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 6px;
   background:
-    radial-gradient(circle at 82% 16%, rgba(154, 199, 255, 0.16), transparent 36%),
-    rgba(154, 199, 255, 0.06);
+    radial-gradient(circle at 82% 16%, rgba(255, 255, 255, 0.1), transparent 36%),
+    rgba(255, 255, 255, 0.055);
 }
 
 .risk-score span,
@@ -859,7 +861,7 @@ textarea:focus-visible {
 }
 
 .risk-score strong {
-  color: var(--accent);
+  color: #ffffff;
   font-size: 38px;
   line-height: 1;
 }
@@ -892,7 +894,7 @@ textarea:focus-visible {
   width: var(--value);
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(158, 167, 161, 0.72));
   content: "";
 }
 
@@ -993,8 +995,8 @@ textarea:focus-visible {
 }
 
 .strategy-card.is-active {
-  border-color: rgba(77, 151, 255, 0.65);
-  background: rgba(77, 151, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.075);
 }
 
 .backtest-card {
@@ -1007,7 +1009,7 @@ textarea:focus-visible {
   height: 190px;
   border: 1px solid var(--line);
   border-radius: 5px;
-  background: #0b1218;
+  background: #0e1110;
 }
 
 .backtest-stats {
@@ -1046,7 +1048,7 @@ textarea:focus-visible {
   overflow: hidden;
   border: 1px solid var(--line-2);
   border-radius: var(--radius);
-  background: rgba(8, 14, 20, 0.96);
+  background: rgba(10, 13, 12, 0.96);
   box-shadow: var(--shadow);
   backdrop-filter: blur(16px);
 }
@@ -1057,7 +1059,7 @@ textarea:focus-visible {
   gap: 8px;
   min-height: 34px;
   padding: 0 8px;
-  background: #07111c;
+  background: #0e1110;
   cursor: grab;
 }
 
@@ -1078,7 +1080,7 @@ textarea:focus-visible {
   width: 24px;
   height: 24px;
   border-radius: 4px;
-  color: #07111c;
+  color: #111514;
   background: var(--accent);
   font-weight: 950;
 }
@@ -1105,7 +1107,7 @@ textarea:focus-visible {
   height: 78px;
   margin: 8px 0;
   border-radius: 5px;
-  background: #0b1218;
+  background: #0e1110;
 }
 
 .float-meta {
@@ -1155,7 +1157,7 @@ textarea:focus-visible {
   min-height: 34px;
   padding: 0 12px;
   border-radius: 5px;
-  color: #07111c;
+  color: #111514;
   background: var(--accent);
   font-weight: 900;
 }
